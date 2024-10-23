@@ -1,0 +1,92 @@
+using System;
+
+public class Complex //мат.операции
+{
+    public double Real { get; }
+    public double Imaginary { get; }
+
+    public Complex(double real, double imaginary)
+    {
+        Real = real;
+        Imaginary = imaginary;
+    }
+
+    // Сложение
+    public static Complex operator +(Complex a, Complex b)
+    {
+        return new Complex(a.Real + b.Real, a.Imaginary + b.Imaginary);
+    }
+
+    // Умножение
+    public static Complex operator *(Complex a, Complex b)
+    {
+        return new Complex(
+            a.Real * b.Real - a.Imaginary * b.Imaginary,
+            a.Real * b.Imaginary + a.Imaginary * b.Real);
+    }
+
+    // Деление
+    public static Complex operator /(Complex a, Complex b)
+    {
+        double denominator = b.Real * b.Real + b.Imaginary * b.Imaginary;
+        return new Complex(
+            (a.Real * b.Real + a.Imaginary * b.Imaginary) / denominator,
+            (a.Imaginary * b.Real - a.Real * b.Imaginary) / denominator);
+    }
+
+    // Возведение в степень
+    public Complex Pow(int exponent)
+    {
+        Complex result = new Complex(1, 0);
+        for (int i = 0; i < exponent; i++)
+        {
+            result *= this;
+        }
+        return result;
+    }
+
+    // Извлечение корня
+    public Complex Sqrt()
+    {
+        double r = Math.Sqrt(Real * Real + Imaginary * Imaginary);
+        double theta = Math.Atan2(Imaginary, Real);
+        return new Complex(Math.Sqrt(r) * Math.Cos(theta / 2), Math.Sqrt(r) * Math.Sin(theta / 2));
+    }
+
+    // Нахождение модуля
+    public double Modulus()
+    {
+        return Math.Sqrt(Real * Real + Imaginary * Imaginary);
+    }
+
+    // Нахождение угла
+    public double Argument()
+    {
+        return Math.Atan2(Imaginary, Real);
+    }
+
+    // Переопределение ToString для удобного вывода
+    public override string ToString()
+    {
+        return $"{Real} + {Imaginary}i";
+    }
+}
+
+class Program
+{
+    static void Main()
+    {
+        Complex a = new Complex(5, 3);
+        Complex b = new Complex(6, 2);
+
+        Console.WriteLine($"a: {a}");
+        Console.WriteLine($"b: {b}");
+        Console.WriteLine($"Сложение: {a + b}");
+        Console.WriteLine($"Умножение: {a * b}");
+        Console.WriteLine($"Деление: {a / b}");
+        Console.WriteLine($"Возведение в степень (2): {a.Pow(2)}");
+        Console.WriteLine($"Корень: {a.Sqrt()}");
+        Console.WriteLine($"Модуль: {a.Modulus()}");
+        Console.WriteLine($"Угол: {a.Argument()}");
+    }
+}
