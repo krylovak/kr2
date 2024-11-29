@@ -1,36 +1,43 @@
 using System;
 
-class Program
+class FifthTask
 {
-    static void Main()
+    static void Main(string[] args)
     {
-        int[] array = { 1, 3, 2, 4, 6, 5, 7, 8, 10, 9};
+        Console.WriteLine("Введите элементы массива через пробел:");
+        string input = Console.ReadLine();
 
-        Console.WriteLine("Исходный массив:");
-        PrintArray(array);
+        int[] array = Array.ConvertAll(input.Split(' '), int.Parse);
+        Console.WriteLine("Пузырёк");
 
         BubbleSort(array);
 
-        Console.WriteLine("Отсортированный массив:");
-        PrintArray(array);
+        string result = string.Join(", ", array);
+        Console.WriteLine("Отсортированный массив: " + result);
     }
 
     static void BubbleSort(int[] arr)
     {
         int n = arr.Length;
-        for (int i = 0; i < n; i++) // n проходов
-            for (int j = 0; j < n - 1; j++) // Проход по массиву
-                if (arr[j] > arr[j + 1]) // Сравнение
+
+        for (int i = 0; i < n; i++)
+        {
+            for (int j = 0; j < n - i - 1; j++)
+            {
+                if (arr[j] > arr[j + 1])
                 {
-                    // Обмен местами
                     int temp = arr[j];
                     arr[j] = arr[j + 1];
                     arr[j + 1] = temp;
                 }
+            }
+            PrintArray(arr); 
+        }
     }
-
+    
     static void PrintArray(int[] arr)
     {
-        Console.WriteLine(string.Join(" ", arr));
+        string result = string.Join(", ", arr);
+        Console.WriteLine("Промежуточный массив: " + result);
     }
 }
